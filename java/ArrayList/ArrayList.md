@@ -1,4 +1,4 @@
-###참고: [OpenJDK16-ArrayList](https://github.com/AdoptOpenJDK/openjdk-jdk16/blob/master/src/java.base/share/classes/java/util/ArrayList.java)
+### 참고: [OpenJDK16-ArrayList](https://github.com/AdoptOpenJDK/openjdk-jdk16/blob/master/src/java.base/share/classes/java/util/ArrayList.java)
 
 ```java
 // copy from OpenJDK16 ArrayList.java
