@@ -11,7 +11,8 @@ type List struct {
 }
 
 const (
-	growCapacityFactor = float32(2.0)
+	growCapacityFactor   = float32(2.0)
+	shrinkCapacityFactor = float32(0.25)
 )
 
 func New(values ...any) *List {
@@ -61,11 +62,15 @@ func (list *List) Contains(values ...any) bool {
 }
 
 func (list *List) Remove(index int) {
+	if !list.isInRange(index) {
+		return
+	}
+
 	list.elements[index] = nil
 	copy(list.elements[index:], list.elements[index+1:list.size])
 	list.size--
 
-	// TODO: Capacity 감소가 필요 한지 검사 해야 함
+	list.shrink()
 }
 
 func (list *List) Insert(index int, values ...any) {
@@ -124,6 +129,10 @@ func (list *List) IndexOf(value any) int {
 	return -1
 }
 
+func (list *List) IsEmpty() bool {
+	return list.size == 0
+}
+
 func (list *List) isInRange(index int) bool {
 	return index >= 0 && index < list.size
 }
@@ -142,4 +151,16 @@ func (list *List) resize(cap int) {
 	copy(newSpace, list.elements)
 	list.elements = newSpace
 	newSpace = nil
+}
+
+func (list *List) shrink() {
+	if shrinkCapacityFactor == 0.0 {
+		return
+	}
+
+	currentCapacity := cap(list.elements)
+
+	if list.size <= int(float32(currentCapacity)*shrinkCapacityFactor) {
+		list.resize(list.size)
+	}
 }
