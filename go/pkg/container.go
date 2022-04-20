@@ -5,4 +5,5 @@ type Container interface {
 	ToString() string
 	Clear()
 	Values() []any
+	IsEmpty() bool
 }
